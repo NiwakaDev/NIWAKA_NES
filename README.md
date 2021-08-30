@@ -18,9 +18,9 @@ MacOSのみ。
 SDL2.0、C++
 
 <h2>参考</h2>
-https://qiita.com/bokuweb/items/1575337bef44ae82f4d3
-https://wiki.nesdev.com/
-http://hp.vector.co.jp/authors/VA042397/nes/index.html
-http://gikofami.fc2web.com/index.html
-http://pgate1.at-ninja.jp/NES_on_FPGA/index.html
+<p>https://qiita.com/bokuweb/items/1575337bef44ae82f4d3</p>
+<p>https://wiki.nesdev.com/</p>
+<p>http://hp.vector.co.jp/authors/VA042397/nes/index.html</p>
+<p>http://gikofami.fc2web.com/index.html</p>
+<p>http://pgate1.at-ninja.jp/NES_on_FPGA/index.html</p>
 
