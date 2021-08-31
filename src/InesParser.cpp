@@ -54,6 +54,7 @@ void InesParser::Parse(){
     }else{
         this->horizontal_mirror = false;
     }
+    this->mapper_number = ((p[6]>>4)&0x0F)|(p[7]&0xF0);
 }
 
 char* InesParser::GetChr(int index){

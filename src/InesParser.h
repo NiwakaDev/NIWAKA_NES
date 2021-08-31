@@ -26,6 +26,7 @@ class InesParser:public Object{
         int chr_rom_size;
         int prg_rom_start_addr;
         int chr_rom_start_addr;
+        int mapper_number;
         int GetFileSize();
         bool horizontal_mirror = false;
     public:
