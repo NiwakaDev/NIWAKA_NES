@@ -24,14 +24,6 @@ Ppu::Ppu(InesParser* ines_parser, Gui* gui){
     }
     this->lower_byte = false;
     this->ResetTransparentBuff();
-    for(int i=0; i<64; i++){
-        Pixel pixel;
-        pixel.a = this->palettes[i].b;
-        pixel.r = this->palettes[i].g;
-        pixel.g = this->palettes[i].r;
-        pixel.b = this->palettes[i].a;
-        this->palettes[i] = pixel;
-    }
 }
 
 uint8_t Ppu::Read(PPU_REGISTER_KIND ppu_register_kind){
@@ -203,7 +195,8 @@ bool Ppu::Execute(int cycle, InterruptManager* interrupt_manager){
     if(this->now_cycle>=341){
         this->now_cycle -= 341;
         this->line++;
-
+        //this->sprite_list.clear();
+        //this->SearchSprite();
         if(this->IsSprite0()){
             this->SetSprite0();
         }
@@ -382,6 +375,35 @@ void Ppu::DrawBg(){
             x++;
         }
     }
+
+    /***
+    for(int i=0; i<this->sprite_list.size(); i++){
+        fprintf(stderr, "size = %d\n", this->sprite_list.size());
+        Sprite* sprite_info = &this->sprite_ram.sprites[this->sprite_list[i]];
+        y = sprite_info->y+1;
+        this->chr = this->GetSprite(sprite_info->tile_id);
+        int offset_y = y%8;
+        int offset_x = sprite_info->x%8;
+        int j = 7;
+        for(int i=0; i<8; i++){
+            this->sprite[offset_y][i]    = (this->chr[offset_y]&(1<<j))!=0;
+            this->sprite[offset_y][i] |= ((this->chr[8+offset_y]&(1<<j))!=0)<<1;
+            j--;
+        }
+        uint32_t palette = this->GetSpritePalette((sprite_info->attr&0x03)<<2);
+        for(int dx=0; dx<8; dx++){
+            if((!(sprite_info->attr&0x20))||(this->transparent_buff[y][sprite_info->x+dx])){
+                if(!this->sprite[offset_y][dx]){
+                    continue;
+                }
+                if((((int)sprite_info->x)+dx)>=WIDTH){
+                    continue;
+                }
+                this->gui->SetPixel(sprite_info->x+dx, y, this->palettes[*(((char*)&palette)+this->sprite[offset_y][dx])]);
+            }
+        }
+    }
+    ***/
     return;
 }
 
@@ -472,4 +494,16 @@ void Ppu::SetSprite0(){
 
 void Ppu::ClearSprite0(){
     this->registers[PPUSTATUS_KIND] &= ~0x40;
+}
+
+void Ppu::SearchSprite(){
+    for(int i=0; i<64; i++){
+        this->sprite_ram.sprites[i];
+        if((this->sprite_ram.sprites[i].y+1)==this->line){
+            this->sprite_list.push_back(i);
+        }
+        if(this->sprite_list.size()==8){
+            break;
+        }
+    }
 }

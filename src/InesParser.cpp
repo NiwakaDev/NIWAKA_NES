@@ -55,6 +55,11 @@ void InesParser::Parse(){
         this->horizontal_mirror = false;
     }
     this->mapper_number = ((p[6]>>4)&0x0F)|(p[7]&0xF0);
+    if(this->mapper_number!=0 && this->mapper_number!=3){
+        this->Error("Not implemented : mapper_number = %d\n", this->mapper_number);
+    }
+    fprintf(stderr, "CHR_ROM_SIZE = %08X\n", this->ines_header.CHR_ROM_SIZE);
+    fprintf(stderr, "PRG_ROM_SIZE = %08X\n", this->ines_header.PRG_ROM_SIZE);
 }
 
 char* InesParser::GetChr(int index){

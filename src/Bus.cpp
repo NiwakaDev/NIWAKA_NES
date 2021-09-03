@@ -109,6 +109,7 @@ void Bus::Write8(uint16_t addr, uint8_t value){
         this->memory->memory[addr] = value;
         return;
     }
+    //fprintf(stderr, "addr = %08X, bank = %d\n", addr, value);
     if(0x8000<=addr && addr<=0xBFFF){
         this->memory->memory[addr] = value;
         return;

@@ -77,6 +77,8 @@ class Ppu:public Object{
         uint16_t GetTileAddr(int x, int y);
         uint16_t GetBlockId(int x, int y);
         uint32_t GetPalette(uint16_t tile_addr, uint16_t block_id);
+        vector<uint8_t> sprite_list;
+        void SearchSprite();
     public:
         union{
             struct Sprite sprites[64];
