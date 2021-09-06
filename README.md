@@ -15,7 +15,7 @@ make
 <h2>Library and language</h2>
 SDL2.0、C++
 
-<h2>Ref</h2>
+<h2>Reference</h2>
 <p>https://qiita.com/bokuweb/items/1575337bef44ae82f4d3</p>
 <p>https://wiki.nesdev.com/</p>
 <p>http://hp.vector.co.jp/authors/VA042397/nes/index.html</p>
