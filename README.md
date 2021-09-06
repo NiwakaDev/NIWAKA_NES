@@ -4,7 +4,7 @@
 <p>It looks slow in the gif, but it's actually much faster.</p>
 
 ![スクリーンショット 2021-08-30 14 18 40](https://user-images.githubusercontent.com/61189782/131290614-db5d5f35-53fd-4366-9a81-51950c894ae2.png)
-
+<p>NIWAKA_NES passed nestest.nes.</p>
 
 <h2>Build</h2>
 make
