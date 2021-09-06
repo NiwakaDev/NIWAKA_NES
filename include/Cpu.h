@@ -13,11 +13,12 @@ class Dma;
 class Bus;
 class InterruptManager;
 
+#define INSTRUCTION_SIZE 256
 class Cpu:public Object{
     private:
         int now_cycle = 0;
-        int instruction_size = 256;
-        InstructionBase* instructions[256];
+        int instruction_size = INSTRUCTION_SIZE;
+        InstructionBase* instructions[INSTRUCTION_SIZE];
         uint8_t gprs[REGISTER_KIND_CNT];
         uint16_t pc;
         union{
