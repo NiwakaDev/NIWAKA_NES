@@ -1,7 +1,7 @@
 # NIWAKA_NES
 
 ![7gxzi-nrtyn](https://user-images.githubusercontent.com/61189782/132125821-96c311b8-ed5b-4ebf-b668-6cef32d82608.gif)
-
+<p>gifだと遅く見えますが、実際はもっと早いです。</p>
 
 ![スクリーンショット 2021-08-30 14 18 40](https://user-images.githubusercontent.com/61189782/131290614-db5d5f35-53fd-4366-9a81-51950c894ae2.png)
 
