@@ -375,12 +375,9 @@ void Ppu::DrawBg(){
             x++;
         }
     }
-
     /***
-    for(int i=0; i<this->sprite_list.size(); i++){
-        fprintf(stderr, "size = %d\n", this->sprite_list.size());
-        Sprite* sprite_info = &this->sprite_ram.sprites[this->sprite_list[i]];
-        y = sprite_info->y+1;
+    for(int idx=0; idx<this->sprite_list.size(); idx++){
+        Sprite* sprite_info = &this->sprite_ram.sprites[this->sprite_list[idx]];
         this->chr = this->GetSprite(sprite_info->tile_id);
         int offset_y = y%8;
         int offset_x = sprite_info->x%8;
@@ -499,7 +496,7 @@ void Ppu::ClearSprite0(){
 void Ppu::SearchSprite(){
     for(int i=0; i<64; i++){
         this->sprite_ram.sprites[i];
-        if((this->sprite_ram.sprites[i].y+1)==this->line){
+        if((this->sprite_ram.sprites[i].y+8)<=this->line){
             this->sprite_list.push_back(i);
         }
         if(this->sprite_list.size()==8){

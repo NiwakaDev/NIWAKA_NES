@@ -75,8 +75,11 @@ class Cpu:public Object{
         bool IsVflg();
         uint8_t GetCFLg();
         void Push16(uint16_t data);
-        uint16_t Pop16();
         void Push8(uint8_t data);
+        template<typename type>void Push(type data){
+            this->Error("Not implemented: Cpu::Push");
+        } 
+        uint16_t Pop16();
         uint8_t Pop8();
         void HandleNmi(InterruptManager* interrupt_manager);
         bool CmpLastInstructionName(string name);

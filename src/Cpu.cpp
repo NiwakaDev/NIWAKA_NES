@@ -7,6 +7,7 @@
 #include "Ppu.h"
 #include "Cpu.h"
 #define SIGN_FLG 0x80
+#define STACK_BASE_ADDR 0x0100
 
 Cpu::Cpu(Bus* bus){
     this->bus = bus;
@@ -382,25 +383,46 @@ uint8_t Cpu::GetCFLg(){
     return this->P.flgs.C;
 }
 
-void Cpu::Push16(uint16_t data){
-    uint8_t *p = (uint8_t*)&data;
-    //this->Write((((uint16_t)this->gprs[S_KIND])|0x0100), *(p+1));//upper byte
-    //this->Write((((uint16_t)this->gprs[S_KIND])|0x0100)-1, *p);//lower byte
-    this->Write((((uint16_t)this->gprs[S_KIND])|0x0100)-1, data);
-    this->gprs[S_KIND] -= 2;
+void Cpu::Push8(uint8_t data){
+    this->Write(((uint16_t)this->gprs[S_KIND])|STACK_BASE_ADDR, data);
+    this->gprs[S_KIND] -= 1;
 }
 
-void Cpu::Push8(uint8_t data){
-    this->Write(((uint16_t)this->gprs[S_KIND])|0x0100, data);
-    this->gprs[S_KIND] -= 1;
+void Cpu::Push16(uint16_t data){
+    uint8_t *p = (uint8_t*)&data;
+    //this->Write((((uint16_t)this->gprs[S_KIND])|STACK_BASE_ADDR), *(p+1));//upper byte
+    //this->Write((((uint16_t)this->gprs[S_KIND])|STACK_BASE_ADDR)-1, *p);//lower byte
+    this->Write((((uint16_t)this->gprs[S_KIND])|STACK_BASE_ADDR)-1, data);
+    this->gprs[S_KIND] -= 2;
+
+    /***
+    for(int i=0; i<sizeof(data); i++){
+        this->Write((((uint16_t)this->gprs[S_KIND])|STACK_BASE_ADDR), p[i]);
+        this->gprs[S_KIND]--;
+    }
+    ***/
+}
+
+uint8_t Cpu::Pop8(){
+    uint8_t data;
+    this->gprs[S_KIND]++;
+    return this->Read8(((uint16_t)this->gprs[S_KIND])|STACK_BASE_ADDR);
 }
 
 uint16_t Cpu::Pop16(){
     uint16_t data;
     uint8_t* p = (uint8_t*)&data;
-    *p = this->Read8((((uint16_t)this->gprs[S_KIND])|0x0100)+1);//lowwer byte
-    *(p+1) = this->Read8((((uint16_t)this->gprs[S_KIND])|0x0100)+2);//upper byte
+
+    *p = this->Read8((((uint16_t)this->gprs[S_KIND])|STACK_BASE_ADDR)+1);//lowwer byte
+    *(p+1) = this->Read8((((uint16_t)this->gprs[S_KIND])|STACK_BASE_ADDR)+2);//upper byte
     this->gprs[S_KIND] += 2;
+
+    /***
+    for(int i=0; i<sizeof(data); i++){
+        this->gprs[S_KIND]++;
+        *(p+sizeof(data)-1-i) = this->Read8((((uint16_t)this->gprs[S_KIND])|STACK_BASE_ADDR));
+    }
+    ***/
     return data;
 }
 
@@ -412,12 +434,6 @@ void Cpu::HandleNmi(InterruptManager* interrupt_manager){
     this->Push8(this->P.raw);
     this->SetPc(this->Read16(0xFFFA));
     interrupt_manager->ClearNmi();
-}
-
-uint8_t Cpu::Pop8(){
-    uint8_t data;
-    this->gprs[S_KIND]++;
-    return this->Read8(((uint16_t)this->gprs[S_KIND])|0x0100);
 }
 
 void Cpu::SetP(uint8_t value){
