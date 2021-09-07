@@ -39,4 +39,5 @@ class InesParser:public Object{
         char* GetPrgRom();
         char* GetChrRom();
         bool IsHorizontal();
+        int GetMapperNumber();
 };

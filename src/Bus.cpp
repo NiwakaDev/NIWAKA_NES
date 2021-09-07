@@ -3,18 +3,21 @@
 #include "Ppu.h"
 #include "JoyPad.h"
 #include "InesParser.h"
+#include "Mapper.h"
 #include "Bus.h"
-Bus::Bus(Memory* memory, Ppu* ppu, JoyPad* joy_pad, Dma* dma, InesParser* ines_parser){
+Bus::Bus(Memory* memory, Ppu* ppu, JoyPad* joy_pad, Dma* dma, InesParser* ines_parser, Mapper* mapper){
     this->memory = memory;
     this->ppu    = ppu;
     this->joy_pad = joy_pad;
     this->dma = dma;
     this->ines_parser = ines_parser;
+    this->mapper = mapper;
     assert(this->memory!=NULL);
     assert(this->ppu!=NULL);
     assert(this->joy_pad!=NULL);
     assert(this->dma!=NULL);
     assert(this->ines_parser!=NULL);
+    assert(this->mapper!=NULL);
 }
 
 uint8_t Bus::Read8(uint16_t addr){
@@ -58,7 +61,7 @@ uint8_t Bus::Read8(uint16_t addr){
         }
         return this->memory->memory[addr];
     }
-    this->Error("Stopped at Bus::Read8");
+    this->Error("Not implemented: addr = %04X at Bus::Read8", addr);
 }
 
 void Bus::Write8(uint16_t addr, uint8_t value){
@@ -109,14 +112,10 @@ void Bus::Write8(uint16_t addr, uint8_t value){
         this->memory->memory[addr] = value;
         return;
     }
-    //fprintf(stderr, "addr = %08X, bank = %d\n", addr, value);
-    if(0x8000<=addr && addr<=0xBFFF){
-        this->memory->memory[addr] = value;
+    if(addr>=0x8000&&addr<=0xFFFF){
+        this->mapper->Write(value);
         return;
     }
-    if(0xC000<=addr && addr<=0xFFFF){
-        this->memory->memory[addr] = value;
-        return;
-    }
-    this->Error("Stopped at Bus::Write8");
+    fprintf(stderr, "addr = %08X, bank = %d\n", addr, value);
+    this->Error("Not implemented: addr = %04X at Bus::Write8", addr);
 }

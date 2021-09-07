@@ -4,6 +4,7 @@ using namespace std;
 class InesParser;
 class Gui;
 class InterruptManager;
+class Mapper;
 
 enum PPU_REGISTER_KIND {PPUCTRL_KIND, PPUMASK_KIND, PPUSTATUS_KIND, OAMADDR_KIND, OAMDATA_KIND, PPUSCROLL_KIND, PPUADDR_KIND, PPUDATA_KIND, OAMDMA_KIND, PPU_REGISTER_KIND_CNT};
 
@@ -79,6 +80,7 @@ class Ppu:public Object{
         uint32_t GetPalette(uint16_t tile_addr, uint16_t block_id);
         vector<uint8_t> sprite_list;
         void SearchSprite();
+        Mapper* mapper = NULL;
     public:
         union{
             struct Sprite sprites[64];
@@ -102,7 +104,7 @@ class Ppu:public Object{
             {0xFF, 0xFF, 0xF7, 0x9C}, {0xFF, 0xD7, 0xE8, 0x95}, {0xFF, 0xA6, 0xED, 0xAF}, {0xFF, 0xA2, 0xF2, 0xDA},
             {0xFF, 0x99, 0xFF, 0xFC}, {0xFF, 0xDD, 0xDD, 0xDD}, {0xFF, 0x11, 0x11, 0x11}, {0xFF, 0x11, 0x11, 0x11},
         };
-        Ppu(InesParser* ines_parser, Gui* gui);
+        Ppu(InesParser* ines_parser, Gui* gui, Mapper* mapper);
         void Write(PPU_REGISTER_KIND ppu_register_kind, uint8_t value);
         uint8_t Read(PPU_REGISTER_KIND ppu_register_kind);
         uint8_t GetChrIdx(int x, int y);

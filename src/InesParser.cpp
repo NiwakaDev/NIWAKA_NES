@@ -54,7 +54,11 @@ void InesParser::Parse(){
     }else{
         this->horizontal_mirror = false;
     }
+    if(*(p+6)&0x04){
+        this->Error("Not implemented: Tranier");
+    }
     this->mapper_number = ((p[6]>>4)&0x0F)|(p[7]&0xF0);
+    fprintf(stderr, "mapper = %d\n", this->mapper_number);
     if(this->mapper_number!=0 && this->mapper_number!=3){
         this->Error("Not implemented : mapper_number = %d\n", this->mapper_number);
     }
@@ -91,4 +95,8 @@ InesParser::~InesParser(){
 
 bool InesParser::IsHorizontal(){
     return this->horizontal_mirror;
+}
+
+int InesParser::GetMapperNumber(){
+    return this->mapper_number;
 }

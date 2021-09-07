@@ -1,9 +1,10 @@
 #include "InterruptManager.h"
 #include "Gui.h"
 #include "InesParser.h"
+#include "Mapper.h"
 #include "Ppu.h"
 
-Ppu::Ppu(InesParser* ines_parser, Gui* gui){
+Ppu::Ppu(InesParser* ines_parser, Gui* gui, Mapper* mapper){
     this->gui = gui;
     this->ines_parser = ines_parser;
     assert(this->ines_parser!=NULL);
@@ -24,6 +25,8 @@ Ppu::Ppu(InesParser* ines_parser, Gui* gui){
     }
     this->lower_byte = false;
     this->ResetTransparentBuff();
+    this->mapper = mapper;
+    assert(this->mapper!=NULL);
 }
 
 uint8_t Ppu::Read(PPU_REGISTER_KIND ppu_register_kind){
@@ -36,7 +39,11 @@ uint8_t Ppu::Read(PPU_REGISTER_KIND ppu_register_kind){
             return this->ReadStatus();
         case PPUDATA_KIND:
             data = this->vram_data_buff;
-            this->vram_data_buff = this->vram.raw[this->vram_addr];
+            if(this->vram_addr>=0&&this->vram_addr<=0x1FFF){
+                this->vram_data_buff = this->mapper->ReadChrRom(this->vram_addr);
+            }else{
+                this->vram_data_buff = this->vram.raw[this->vram_addr];
+            }
             if(this->ppu_ctrl_register.flgs.ppu_addr_inc){
                 this->vram_addr+=32;
             }else{

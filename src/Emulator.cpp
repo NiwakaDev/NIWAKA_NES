@@ -7,18 +7,37 @@
 #include "Bus.h"
 #include "InterruptManager.h"
 #include "JoyPad.h"
+#include "Mapper.h"
+#include "Mapper0.h"
 #include "Emulator.h"
 
 Emulator::Emulator(int argc, char** argv){
     this->joy_pad = new JoyPad();
+    assert(this->joy_pad!=NULL);
     this->ines_parser = new InesParser(argv[1]);
+    assert(this->ines_parser!=NULL);
+    switch(this->ines_parser->GetMapperNumber()){
+        case 0:
+            this->mapper = new Mapper0(this->ines_parser);
+            break;
+        default:
+            this->Error("Not implemented:  mapper_number = %d at Emulator::Emulator", this->ines_parser->GetMapperNumber());
+    }
+    assert(this->mapper!=NULL);
     this->interrupt_manager = new InterruptManager();
+    assert(this->interrupt_manager!=NULL);
     this->memory = new Memory(this->ines_parser);
+    assert(this->memory!=NULL);
     this->dma = new Dma(this->memory);
+    assert(this->dma!=NULL);
     this->gui = new Gui(this->joy_pad);
-    this->ppu = new Ppu(this->ines_parser, this->gui);
-    this->bus = new Bus(this->memory, this->ppu, this->joy_pad, this->dma, this->ines_parser);
+    assert(this->gui!=NULL);
+    this->ppu = new Ppu(this->ines_parser, this->gui, this->mapper);
+    assert(this->ppu!=NULL);
+    this->bus = new Bus(this->memory, this->ppu, this->joy_pad, this->dma, this->ines_parser, this->mapper);
+    assert(this->bus!=NULL);
     this->cpu = new Cpu(this->bus);
+    assert(this->cpu!=NULL);
 }
 
 void Emulator::Execute(){
