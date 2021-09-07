@@ -9,6 +9,7 @@
 #include "JoyPad.h"
 #include "Mapper.h"
 #include "Mapper0.h"
+#include "Mapper3.h"
 #include "Emulator.h"
 
 Emulator::Emulator(int argc, char** argv){
@@ -19,6 +20,9 @@ Emulator::Emulator(int argc, char** argv){
     switch(this->ines_parser->GetMapperNumber()){
         case 0:
             this->mapper = new Mapper0(this->ines_parser);
+            break;
+        case 3:
+            this->mapper = new Mapper3(this->ines_parser);
             break;
         default:
             this->Error("Not implemented:  mapper_number = %d at Emulator::Emulator", this->ines_parser->GetMapperNumber());

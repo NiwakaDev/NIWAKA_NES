@@ -166,12 +166,12 @@ uint8_t Ppu::GetChrIdx(int x, int y){
 
 uint8_t* Ppu::GetBg(int idx){
     unsigned int offset = this->ppu_ctrl_register.flgs.bg_addr? 0x1000: 0x0000;
-    return this->vram.raw+offset+16*idx;
+    this->mapper->ReadChrRom(offset+16*idx);
 }
 
 uint8_t* Ppu::GetSprite(int idx){
     unsigned int offset = this->ppu_ctrl_register.flgs.sprite_addr? 0x1000: 0x0000;
-    return this->vram.raw+offset+16*idx;
+    this->mapper->ReadChrRom(offset+16*idx);
 }
 
 Sprite* Ppu::GetSprite(int x, int y){
