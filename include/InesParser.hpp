@@ -1,5 +1,5 @@
 #pragma once
-#include "common.h"
+#include "common.hpp"
 struct Header{
     uint8_t sign[4];
     uint8_t PRG_ROM_SIZE;   

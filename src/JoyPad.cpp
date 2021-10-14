@@ -1,4 +1,4 @@
-#include "JoyPad.h"
+#include "JoyPad.hpp"
 
 JoyPad::JoyPad(){
     for(int i=0; i<BUTTON_KIND_CNT; i++){

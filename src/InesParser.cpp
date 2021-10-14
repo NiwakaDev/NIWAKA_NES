@@ -1,4 +1,4 @@
-#include "InesParser.h"
+#include "InesParser.hpp"
 
 InesParser::InesParser(const char* file_name){
     this->file_name = (char*)malloc(strlen(file_name)+1);
@@ -39,6 +39,9 @@ void InesParser::Parse(){
     memcpy(&this->ines_header, this->buff, sizeof(Header));
     this->prg_rom_size = this->ines_header.PRG_ROM_SIZE*0x4000;
     this->chr_rom_size = this->ines_header.CHR_ROM_SIZE*8192;
+    if(this->ines_header.CHR_ROM_SIZE==0){
+        this->Error("Not implemented: CHR_RAM");
+    }
     this->prg_rom_start_addr = sizeof(Header);
     this->chr_rom_start_addr = sizeof(Header) + this->prg_rom_size;
     this->prg_rom = (char*)malloc(this->prg_rom_size);

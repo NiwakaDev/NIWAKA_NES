@@ -1,6 +1,6 @@
 #pragma once
-#include "common.h"
-#include "Bus.h"
+#include "common.hpp"
+#include "Bus.hpp"
 
 enum REGISTER_KIND {A_KIND, X_KIND, Y_KIND, S_KIND, REGISTER_KIND_CNT};
 

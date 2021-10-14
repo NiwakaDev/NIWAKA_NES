@@ -1,11 +1,11 @@
-#include "Instruction.h"
-#include "InterruptManager.h"
-#include "JoyPad.h"
-#include "common.h"
-#include "InesParser.h"
-#include "Memory.h"
-#include "Ppu.h"
-#include "Cpu.h"
+#include "Instruction.hpp"
+#include "InterruptManager.hpp"
+#include "JoyPad.hpp"
+#include "common.hpp"
+#include "InesParser.hpp"
+#include "Memory.hpp"
+#include "Ppu.hpp"
+#include "Cpu.hpp"
 #define SIGN_FLG 0x80
 #define STACK_BASE_ADDR 0x0100
 

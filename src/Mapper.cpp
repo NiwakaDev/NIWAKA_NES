@@ -1,5 +1,5 @@
-#include "InesParser.h"
-#include "Mapper.h"
+#include "InesParser.hpp"
+#include "Mapper.hpp"
 
 Mapper::Mapper(InesParser* ines_parser){
     assert(ines_parser!=NULL);

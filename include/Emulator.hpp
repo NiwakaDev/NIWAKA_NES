@@ -1,5 +1,5 @@
 #pragma once
-#include "common.h"
+#include "common.hpp"
 
 class Gui;
 class Ppu;

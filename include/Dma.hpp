@@ -1,5 +1,5 @@
 #pragma once
-#include "common.h"
+#include "common.hpp"
 using namespace std;
 
 class Memory;

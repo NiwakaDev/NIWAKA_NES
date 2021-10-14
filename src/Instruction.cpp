@@ -1,5 +1,5 @@
-#include "Instruction.h"
-#include "Cpu.h"
+#include "Instruction.hpp"
+#include "Cpu.hpp"
 
 InstructionBase::InstructionBase(string name, int nbytes, int cycles){
     this->name = name;

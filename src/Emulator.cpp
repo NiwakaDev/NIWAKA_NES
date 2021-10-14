@@ -1,21 +1,22 @@
-#include "Dma.h"
-#include "Gui.h"
-#include "Ppu.h"
-#include "Cpu.h"
-#include "InesParser.h"
-#include "Memory.h"
-#include "Bus.h"
-#include "InterruptManager.h"
-#include "JoyPad.h"
-#include "Mapper.h"
-#include "Mapper0.h"
-#include "Mapper3.h"
-#include "Emulator.h"
+#include "Dma.hpp"
+#include "Gui.hpp"
+#include "Ppu.hpp"
+#include "Cpu.hpp"
+#include "InesParser.hpp"
+#include "Memory.hpp"
+#include "Bus.hpp"
+#include "InterruptManager.hpp"
+#include "JoyPad.hpp"
+#include "Mapper.hpp"
+#include "Mapper0.hpp"
+#include "Mapper3.hpp"
+#include "Emulator.hpp"
 
 Emulator::Emulator(int argc, char** argv){
     this->joy_pad = new JoyPad();
     assert(this->joy_pad!=NULL);
     this->ines_parser = new InesParser(argv[1]);
+    //this->ines_parser = new InesParser("/Users/mori/Desktop/Super Mario Bros. (World).nes");
     assert(this->ines_parser!=NULL);
     switch(this->ines_parser->GetMapperNumber()){
         case 0:
@@ -71,7 +72,7 @@ void Emulator::Execute(){
         offset = SDL_GetTicks() - start;
         if(DELAY>offset){
             SDL_Delay(DELAY-offset);
-        }  
+        }
         this->gui->Update();
     }
 }

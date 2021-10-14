@@ -1,8 +1,8 @@
-#include "Object.h"
+#include "Object.hpp"
 #include <iostream>
 #include <cstdint>
 #include <string>
-#include <string.h>
+#include <string>
 #include <stdlib.h>
 #include <stdarg.h>
 using namespace std;

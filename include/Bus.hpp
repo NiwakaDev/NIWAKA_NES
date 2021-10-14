@@ -1,5 +1,5 @@
 #pragma once
-#include "common.h"
+#include "common.hpp"
 using namespace std;
 
 class Memory;
@@ -7,6 +7,7 @@ class Ppu;
 class JoyPad;
 class Dma;
 class InesParser;
+class Mapper;
 
 class Bus:public Object{
     private:

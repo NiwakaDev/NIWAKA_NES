@@ -1,5 +1,5 @@
-#include "JoyPad.h"
-#include "Gui.h"
+#include "JoyPad.hpp"
+#include "Gui.hpp"
 
 Gui::Gui(JoyPad* joy_pad){
     this->joy_pad = joy_pad;

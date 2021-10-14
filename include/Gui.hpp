@@ -1,7 +1,6 @@
 #pragma once
-#include "common.h"
+#include "common.hpp"
 #include <SDL2/SDL.h>
-#include <OpenGL/OpenGL.h>
 #include <SDL2/SDL_opengl.h>
 using namespace std;
 

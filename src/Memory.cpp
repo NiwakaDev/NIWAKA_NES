@@ -1,5 +1,5 @@
-#include "InesParser.h"
-#include "Memory.h"
+#include "InesParser.hpp"
+#include "Memory.hpp"
 
 Memory::Memory(InesParser* ines_parser){
     this->ines_parser = ines_parser;
@@ -9,7 +9,7 @@ Memory::Memory(InesParser* ines_parser){
 
 void Memory::Dump(int addr, int cnt){
     for(int i=0; i<cnt; i++){
-        fprintf(stdout, "%02X ", this->memory[addr+i]);
+        fprintf(stderr, "%02X ", this->memory[addr+i]);
         if((i+1)%16==0){
             cout << endl;
         }

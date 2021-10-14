@@ -1,4 +1,4 @@
-#include "InterruptManager.h"
+#include "InterruptManager.hpp"
 
 InterruptManager::InterruptManager(){
     this->nmi = false;

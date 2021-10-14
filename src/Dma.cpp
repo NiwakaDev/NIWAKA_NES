@@ -1,6 +1,6 @@
-#include "Memory.h"
-#include "Ppu.h"
-#include "Dma.h"
+#include "Memory.hpp"
+#include "Ppu.hpp"
+#include "Dma.hpp"
 
 Dma::Dma(Memory* mem){
     this->running = false;

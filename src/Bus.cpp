@@ -1,10 +1,10 @@
-#include "Dma.h"
-#include "Memory.h"
-#include "Ppu.h"
-#include "JoyPad.h"
-#include "InesParser.h"
-#include "Mapper.h"
-#include "Bus.h"
+#include "Dma.hpp"
+#include "Memory.hpp"
+#include "Ppu.hpp"
+#include "JoyPad.hpp"
+#include "InesParser.hpp"
+#include "Mapper.hpp"
+#include "Bus.hpp"
 Bus::Bus(Memory* memory, Ppu* ppu, JoyPad* joy_pad, Dma* dma, InesParser* ines_parser, Mapper* mapper){
     this->memory = memory;
     this->ppu    = ppu;

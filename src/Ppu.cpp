@@ -1,8 +1,8 @@
-#include "InterruptManager.h"
-#include "Gui.h"
-#include "InesParser.h"
-#include "Mapper.h"
-#include "Ppu.h"
+#include "InterruptManager.hpp"
+#include "Gui.hpp"
+#include "InesParser.hpp"
+#include "Mapper.hpp"
+#include "Ppu.hpp"
 
 Ppu::Ppu(InesParser* ines_parser, Gui* gui, Mapper* mapper){
     this->gui = gui;
@@ -40,7 +40,7 @@ uint8_t Ppu::Read(PPU_REGISTER_KIND ppu_register_kind){
         case PPUDATA_KIND:
             data = this->vram_data_buff;
             if(this->vram_addr>=0&&this->vram_addr<=0x1FFF){
-                this->vram_data_buff = this->mapper->ReadChrRom(this->vram_addr);
+                this->vram_data_buff = *(this->mapper->ReadChrRom(this->vram_addr));
             }else{
                 this->vram_data_buff = this->vram.raw[this->vram_addr];
             }
@@ -166,12 +166,12 @@ uint8_t Ppu::GetChrIdx(int x, int y){
 
 uint8_t* Ppu::GetBg(int idx){
     unsigned int offset = this->ppu_ctrl_register.flgs.bg_addr? 0x1000: 0x0000;
-    this->mapper->ReadChrRom(offset+16*idx);
+    return this->mapper->ReadChrRom(offset+16*idx);
 }
 
 uint8_t* Ppu::GetSprite(int idx){
     unsigned int offset = this->ppu_ctrl_register.flgs.sprite_addr? 0x1000: 0x0000;
-    this->mapper->ReadChrRom(offset+16*idx);
+    return this->mapper->ReadChrRom(offset+16*idx);
 }
 
 Sprite* Ppu::GetSprite(int x, int y){
