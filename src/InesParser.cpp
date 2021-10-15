@@ -20,19 +20,11 @@ InesParser::InesParser(const char* file_name){
 }
 
 int InesParser::GetFileSize(){
-    int total = 0;
-    char* buf = (char*)malloc(1);
-    int fd = open(this->file_name, O_RDONLY);
-    if(fd==-1){
-        perror(this->file_name);
-        this->Error("\n");
-    }
-
-    while(read(fd, buf, 1)!=0){
-        total++;
-    }
-    close(fd);
-    return total;
+    int file_size;
+    fseek(this->ines_stream, 0, SEEK_END);
+    file_size = ftell(this->ines_stream);
+    fseek(this->ines_stream, 0, SEEK_SET);
+    return file_size;
 }
 
 void InesParser::Parse(){
