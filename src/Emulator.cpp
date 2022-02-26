@@ -13,7 +13,7 @@
 #include "Emulator.hpp"
 
 Emulator::Emulator(int argc, char** argv){
-    this->joy_pad = new JoyPad();
+    this->joy_pad = make_unique<JoyPad>();
     this->ines_parser = make_unique<InesParser>(argv[1]);
     switch(this->ines_parser->GetMapperNumber()){
         case 0:
@@ -28,9 +28,9 @@ Emulator::Emulator(int argc, char** argv){
     this->interrupt_manager = make_unique<InterruptManager>();
     this->memory = make_unique<Memory>(this->ines_parser.get());
     this->dma    = make_unique<Dma>(this->memory.get());
-    this->gui    = make_unique<Gui>(this->joy_pad);
+    this->gui    = make_unique<Gui>(this->joy_pad.get());
     this->ppu    = make_unique<Ppu>(this->ines_parser.get(), this->gui.get(), this->mapper.get());
-    this->bus    = make_unique<Bus>(this->memory.get(), this->ppu.get(), this->joy_pad, this->dma.get(), this->ines_parser.get(), this->mapper.get());
+    this->bus    = make_unique<Bus>(this->memory.get(), this->ppu.get(), this->joy_pad.get(), this->dma.get(), this->ines_parser.get(), this->mapper.get());
     this->cpu    = make_unique<Cpu>(this->bus.get()); 
 }
 

@@ -14,7 +14,7 @@ class Cpu;
 
 class Emulator:public Object{
     private:
-        JoyPad* joy_pad = NULL;
+        unique_ptr<JoyPad> joy_pad;
         unique_ptr<InesParser> ines_parser;
         unique_ptr<Mapper> mapper;
         unique_ptr<InterruptManager> interrupt_manager;
