@@ -17,15 +17,14 @@ class Emulator:public Object{
         JoyPad* joy_pad = NULL;
         InesParser* ines_parser = NULL;
         //Cpu* cpu = NULL;
-        unique_ptr<Cpu> cpu;
         Memory* memory = NULL;
         Dma* dma = NULL;
         Ppu* ppu = NULL;
-        Bus* bus = NULL;
         Gui* gui = NULL;
         Mapper* mapper = NULL;
         InterruptManager *interrupt_manager = NULL;
-        thread* emu_thread = NULL;
+        unique_ptr<Bus> bus;
+        unique_ptr<Cpu> cpu;
         int now_cycle = 0;
     public:
         Emulator(int argc, char** argv);

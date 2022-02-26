@@ -38,9 +38,8 @@ Emulator::Emulator(int argc, char** argv){
     assert(this->gui!=NULL);
     this->ppu = new Ppu(this->ines_parser, this->gui, this->mapper);
     assert(this->ppu!=NULL);
-    this->bus = new Bus(this->memory, this->ppu, this->joy_pad, this->dma, this->ines_parser, this->mapper);
-    assert(this->bus!=NULL);
-    this->cpu = make_unique<Cpu>(this->bus); 
+    this->bus = make_unique<Bus>(this->memory, this->ppu, this->joy_pad, this->dma, this->ines_parser, this->mapper);
+    this->cpu = make_unique<Cpu>(this->bus.get()); 
 }
 
 void Emulator::Execute(){
