@@ -16,7 +16,6 @@ Emulator::Emulator(int argc, char** argv){
     this->joy_pad = new JoyPad();
     assert(this->joy_pad!=NULL);
     this->ines_parser = new InesParser(argv[1]);
-    //this->ines_parser = new InesParser("/Users/mori/Desktop/Super Mario Bros. (World).nes");
     assert(this->ines_parser!=NULL);
     switch(this->ines_parser->GetMapperNumber()){
         case 0:
@@ -41,8 +40,7 @@ Emulator::Emulator(int argc, char** argv){
     assert(this->ppu!=NULL);
     this->bus = new Bus(this->memory, this->ppu, this->joy_pad, this->dma, this->ines_parser, this->mapper);
     assert(this->bus!=NULL);
-    this->cpu = new Cpu(this->bus);
-    assert(this->cpu!=NULL);
+    this->cpu = make_unique<Cpu>(this->bus); 
 }
 
 void Emulator::Execute(){

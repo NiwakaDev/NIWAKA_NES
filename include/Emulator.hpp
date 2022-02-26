@@ -16,7 +16,8 @@ class Emulator:public Object{
     private:
         JoyPad* joy_pad = NULL;
         InesParser* ines_parser = NULL;
-        Cpu* cpu = NULL;
+        //Cpu* cpu = NULL;
+        unique_ptr<Cpu> cpu;
         Memory* memory = NULL;
         Dma* dma = NULL;
         Ppu* ppu = NULL;

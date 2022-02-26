@@ -13,6 +13,7 @@ using namespace std;
 #include <vector>
 #include <condition_variable>
 //#include <emscripten.h>
+#include <memory>
 #include "Object.hpp"
 #define WIDTH 256
 #define HEIGHT 240
