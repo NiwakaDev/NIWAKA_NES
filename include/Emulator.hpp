@@ -18,11 +18,11 @@ class Emulator:public Object{
         InesParser* ines_parser = NULL;
         //Cpu* cpu = NULL;
         Memory* memory = NULL;
-        Dma* dma = NULL;
-        Ppu* ppu = NULL;
-        Gui* gui = NULL;
         Mapper* mapper = NULL;
         InterruptManager *interrupt_manager = NULL;
+        unique_ptr<Dma> dma;
+        unique_ptr<Gui> gui;
+        unique_ptr<Ppu> ppu;
         unique_ptr<Bus> bus;
         unique_ptr<Cpu> cpu;
         int now_cycle = 0;

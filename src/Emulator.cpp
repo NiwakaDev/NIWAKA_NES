@@ -32,13 +32,10 @@ Emulator::Emulator(int argc, char** argv){
     assert(this->interrupt_manager!=NULL);
     this->memory = new Memory(this->ines_parser);
     assert(this->memory!=NULL);
-    this->dma = new Dma(this->memory);
-    assert(this->dma!=NULL);
-    this->gui = new Gui(this->joy_pad);
-    assert(this->gui!=NULL);
-    this->ppu = new Ppu(this->ines_parser, this->gui, this->mapper);
-    assert(this->ppu!=NULL);
-    this->bus = make_unique<Bus>(this->memory, this->ppu, this->joy_pad, this->dma, this->ines_parser, this->mapper);
+    this->dma = make_unique<Dma>(this->memory);
+    this->gui = make_unique<Gui>(this->joy_pad);
+    this->ppu = make_unique<Ppu>(this->ines_parser, this->gui.get(), this->mapper);
+    this->bus = make_unique<Bus>(this->memory, this->ppu.get(), this->joy_pad, this->dma.get(), this->ines_parser, this->mapper);
     this->cpu = make_unique<Cpu>(this->bus.get()); 
 }
 
@@ -59,7 +56,7 @@ void Emulator::Execute(){
                 this->cpu->HandleNmi(this->interrupt_manager);
             }
             if(this->dma->IsRunning()){
-                this->dma->Execute(this->ppu);
+                this->dma->Execute(this->ppu.get());
                 cycle = 512;
             }
             cycle += this->cpu->Execute();
