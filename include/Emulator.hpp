@@ -15,11 +15,10 @@ class Cpu;
 class Emulator:public Object{
     private:
         JoyPad* joy_pad = NULL;
-        InesParser* ines_parser = NULL;
-        //Cpu* cpu = NULL;
-        Memory* memory = NULL;
-        Mapper* mapper = NULL;
-        InterruptManager *interrupt_manager = NULL;
+        unique_ptr<InesParser> ines_parser;
+        unique_ptr<Mapper> mapper;
+        unique_ptr<InterruptManager> interrupt_manager;
+        unique_ptr<Memory> memory;
         unique_ptr<Dma> dma;
         unique_ptr<Gui> gui;
         unique_ptr<Ppu> ppu;

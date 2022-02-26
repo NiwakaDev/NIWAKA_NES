@@ -14,29 +14,24 @@
 
 Emulator::Emulator(int argc, char** argv){
     this->joy_pad = new JoyPad();
-    assert(this->joy_pad!=NULL);
-    this->ines_parser = new InesParser(argv[1]);
-    assert(this->ines_parser!=NULL);
+    this->ines_parser = make_unique<InesParser>(argv[1]);
     switch(this->ines_parser->GetMapperNumber()){
         case 0:
-            this->mapper = new Mapper0(this->ines_parser);
+            this->mapper =  make_unique<Mapper0>(this->ines_parser.get());
             break;
         case 3:
-            this->mapper = new Mapper3(this->ines_parser);
+            this->mapper = make_unique<Mapper3>(this->ines_parser.get());
             break;
         default:
             this->Error("Not implemented:  mapper_number = %d at Emulator::Emulator", this->ines_parser->GetMapperNumber());
     }
-    assert(this->mapper!=NULL);
-    this->interrupt_manager = new InterruptManager();
-    assert(this->interrupt_manager!=NULL);
-    this->memory = new Memory(this->ines_parser);
-    assert(this->memory!=NULL);
-    this->dma = make_unique<Dma>(this->memory);
-    this->gui = make_unique<Gui>(this->joy_pad);
-    this->ppu = make_unique<Ppu>(this->ines_parser, this->gui.get(), this->mapper);
-    this->bus = make_unique<Bus>(this->memory, this->ppu.get(), this->joy_pad, this->dma.get(), this->ines_parser, this->mapper);
-    this->cpu = make_unique<Cpu>(this->bus.get()); 
+    this->interrupt_manager = make_unique<InterruptManager>();
+    this->memory = make_unique<Memory>(this->ines_parser.get());
+    this->dma    = make_unique<Dma>(this->memory.get());
+    this->gui    = make_unique<Gui>(this->joy_pad);
+    this->ppu    = make_unique<Ppu>(this->ines_parser.get(), this->gui.get(), this->mapper.get());
+    this->bus    = make_unique<Bus>(this->memory.get(), this->ppu.get(), this->joy_pad, this->dma.get(), this->ines_parser.get(), this->mapper.get());
+    this->cpu    = make_unique<Cpu>(this->bus.get()); 
 }
 
 void Emulator::Execute(){
@@ -53,14 +48,14 @@ void Emulator::Execute(){
         while(!flg){
             cycle = 0;
             if(this->interrupt_manager->HasNmi()){
-                this->cpu->HandleNmi(this->interrupt_manager);
+                this->cpu->HandleNmi(this->interrupt_manager.get());
             }
             if(this->dma->IsRunning()){
                 this->dma->Execute(this->ppu.get());
                 cycle = 512;
             }
             cycle += this->cpu->Execute();
-            flg = this->ppu->Execute(cycle*3, this->interrupt_manager);
+            flg = this->ppu->Execute(cycle*3, this->interrupt_manager.get());
         }
         flg = false;
         offset = SDL_GetTicks() - start;
