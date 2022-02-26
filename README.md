@@ -13,7 +13,7 @@ make
 ./fami your_rom
 
 <h2>Library and language</h2>
-SDL2.0、C++
+SDL2.0、C++11
 
 <h2>Reference</h2>
 <p>https://qiita.com/bokuweb/items/1575337bef44ae82f4d3</p>
